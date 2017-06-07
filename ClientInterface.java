@@ -190,36 +190,47 @@ public class ClientInterface extends javax.swing.JFrame {
 		}
 
 	}       
-	
+
 	/*******************************************
 	 *			 WORKING ON IT
 	 *******************************************/
 
-/*	private boolean isValidData(){
-		return (isNumeric() && isWhiteSpace());
+	private boolean isValidData(){
+		return !isPresent() && isNumeric() && isFloat();
 	}
-
-	private boolean isNumeric() {
+	
+private boolean isNumeric() {
 		String regex = "[0-9]+";
 		Pattern pattern = Pattern.compile(regex);
-		if(pattern.matcher(portTextField.getText()).matches() &&
-				pattern.matcher(thresholdTextField.getText()).matches())
+		if(pattern.matcher(portTextField.getText()).matches())
 			return true;
-		JOptionPane.showMessageDialog(null, "Error, invalid data " +
-				"the port and the threshold, must be numeric");
+		JOptionPane.showMessageDialog(null, "Error, invalid data. " +
+				"The port must be an integer value");
 		return false;
 	}
 
-	private boolean isWhiteSpace(){
-		if (queryPathTextField.getText() == null ||
-			hostTextField.getText() == null){
+	private boolean isPresent(){
+		if (queryPathTextField.getText().isEmpty() ||
+				hostTextField.getText().isEmpty()){
 			JOptionPane.showMessageDialog(null, "Error, invalid data. " +
-					"The host and they query path must have a value");
-			return false;
+					"The host and the query path must have a value");
+			return true;
 		}
-		return true;
+		return false;
 	}
-*/
+
+	private boolean isFloat() {
+		String regex = "[0-9]\\.[0-9]+";
+		Pattern pattern = Pattern.compile(regex);
+		if(pattern.matcher(thresholdTextField.getText()).matches()){
+			Double threshold = Double.parseDouble(thresholdTextField.getText());
+			if(threshold >= 0 && threshold <= 1)
+				return true;
+		}
+		JOptionPane.showMessageDialog(null, "Error, invalid data. " +
+				"The threshold, must be beetween 0 and 1");
+		return false;
+	}
 
 	/**
 	 * @param args the command line arguments
